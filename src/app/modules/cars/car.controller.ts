@@ -4,7 +4,7 @@ import carValidationSchema from './car.validation';
 import { FilterQuery } from 'mongoose';
 import { ICar } from './car.interface';
 
-const createCar = async (req: Request, res: Response) => {
+const createCar = async (req: Request, res: Response): Promise<void> => {
   try {
     const carData = req.body;
     const validateData = carValidationSchema.parse(carData);
@@ -23,7 +23,7 @@ const createCar = async (req: Request, res: Response) => {
   }
 };
 
-const getAllCars = async (req: Request, res: Response) => {
+const getAllCars = async (req: Request, res: Response): Promise<void> => {
   try {
     const { searchTerm } = req.query;
 
@@ -44,9 +44,34 @@ const getAllCars = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: 'Failed to retrieved  cars',
+      message: 'Failed to retrieved cars',
       success: false,
       error,
+    });
+  }
+};
+
+const getCarById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { carId } = req.params;
+    const car = await carService.getCarById(carId);
+    if (!car) {
+      res.status(404).json({
+        message: 'Car not found',
+        success: false,
+      });
+      return;
+    }
+    res.status(200).json({
+      message: 'Car retrieved successfully',
+      success: true,
+      data: car,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Failed to retrieve car',
+      success: false,
+      error: error instanceof Error ? error.message : error,
     });
   }
 };
@@ -54,4 +79,5 @@ const getAllCars = async (req: Request, res: Response) => {
 export const carController = {
   createCar,
   getAllCars,
+  getCarById,
 };

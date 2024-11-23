@@ -10,7 +10,7 @@ app.use(cors());
 app.use('/api/cars', carRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send();
+  res.send('Welcome to the Car API');
 });
 
 export default app;
