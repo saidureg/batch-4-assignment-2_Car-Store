@@ -18,7 +18,10 @@ const updateCar = async (
   id: string,
   updateCarData: Partial<ICar>,
 ): Promise<ICar | null> => {
-  return await CarModel.findByIdAndUpdate(id, updateCarData, { new: true });
+  return await CarModel.findByIdAndUpdate(id, updateCarData, {
+    new: true,
+    runValidators: true,
+  });
 };
 
 const deleteCar = async (id: string): Promise<ICar | null> => {

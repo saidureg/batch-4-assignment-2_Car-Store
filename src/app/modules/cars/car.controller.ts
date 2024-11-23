@@ -71,7 +71,33 @@ const getCarById = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({
       message: 'Failed to retrieve car',
       success: false,
-      error: error instanceof Error ? error.message : error,
+      error,
+    });
+  }
+};
+
+const updateCar = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { carId } = req.params;
+    const updateData = req.body;
+    const updateCar = await carService.updateCar(carId, updateData);
+    if (!updateCar) {
+      res.status(404).json({
+        message: 'Car not found',
+        success: false,
+      });
+      return;
+    }
+    res.status(200).json({
+      message: 'Car updated successfully',
+      success: true,
+      data: updateCar,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Failed to update car',
+      success: false,
+      error,
     });
   }
 };
@@ -80,4 +106,5 @@ export const carController = {
   createCar,
   getAllCars,
   getCarById,
+  updateCar,
 };
