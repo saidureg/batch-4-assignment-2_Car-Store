@@ -102,9 +102,35 @@ const updateCar = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+const deleteCar = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { carId } = req.params;
+    const deleteCar = await carService.deleteCar(carId);
+    if (!deleteCar) {
+      res.status(404).json({
+        message: 'Car not found',
+        success: false,
+      });
+      return;
+    }
+    res.status(200).json({
+      message: 'Car deleted successfully',
+      success: true,
+      data: {},
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Failed to delete car',
+      success: false,
+      error,
+    });
+  }
+};
+
 export const carController = {
   createCar,
   getAllCars,
   getCarById,
   updateCar,
+  deleteCar,
 };
