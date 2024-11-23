@@ -14,7 +14,7 @@ const carSchema = new Schema<ICar>(
     year: {
       type: Number,
       required: true,
-      min: [1900, 'Year must be a positive number'],
+      min: [1000, 'Year must be a positive number'],
     },
     price: {
       type: Number,
