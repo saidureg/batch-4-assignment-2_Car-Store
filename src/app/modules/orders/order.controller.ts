@@ -20,6 +20,10 @@ const createOrder = async (req: Request, res: Response) => {
       message: 'Order creation failed',
       success: false,
       error,
+      stack:
+        (error as Error).stack?.match(/"message": "(.*?)"/g) +
+        ' ' +
+        (error as Error).stack?.split('[as error]')[1],
     });
   }
 };
@@ -40,6 +44,10 @@ const calculateRevenue = async (req: Request, res: Response) => {
       message: 'Failed to calculate revenue',
       success: false,
       error,
+      stack:
+        (error as Error).stack?.match(/"message": "(.*?)"/g) +
+        ' ' +
+        (error as Error).stack?.split('[as error]')[1],
     });
   }
 };

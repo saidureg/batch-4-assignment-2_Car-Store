@@ -19,6 +19,10 @@ const createCar = async (req: Request, res: Response): Promise<void> => {
       message: 'Validation failed',
       success: false,
       error,
+      stack:
+        (error as Error).stack?.match(/"message": "(.*?)"/g) +
+        ' ' +
+        (error as Error).stack?.split('[as error]')[1],
     });
   }
 };
@@ -47,6 +51,10 @@ const getAllCars = async (req: Request, res: Response): Promise<void> => {
       message: 'Failed to retrieved cars',
       success: false,
       error,
+      stack:
+        (error as Error).stack?.match(/"message": "(.*?)"/g) +
+        ' ' +
+        (error as Error).stack?.split('[as error]')[1],
     });
   }
 };
@@ -72,6 +80,10 @@ const getCarById = async (req: Request, res: Response): Promise<void> => {
       message: 'Failed to retrieve car',
       success: false,
       error,
+      stack:
+        (error as Error).stack?.match(/"message": "(.*?)"/g) +
+        ' ' +
+        (error as Error).stack?.split('[as error]')[1],
     });
   }
 };
@@ -98,6 +110,10 @@ const updateCar = async (req: Request, res: Response): Promise<void> => {
       message: 'Failed to update car',
       success: false,
       error,
+      stack:
+        (error as Error).stack?.match(/"message": "(.*?)"/g) +
+        ' ' +
+        (error as Error).stack?.split('[as error]')[1],
     });
   }
 };
@@ -123,6 +139,10 @@ const deleteCar = async (req: Request, res: Response): Promise<void> => {
       message: 'Failed to delete car',
       success: false,
       error,
+      stack:
+        (error as Error).stack?.match(/"message": "(.*?)"/g) +
+        ' ' +
+        (error as Error).stack?.split('[as error]')[1],
     });
   }
 };
